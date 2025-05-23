@@ -17,8 +17,10 @@ export async function addPano(addPanoInput: AddPanoInput) {
     .where(eq(panorama.googlePanoId, googlePanoId));
 
   if (existing) {
-    throw new Error("Panorama already exists");
+    return { success: false, existing: true };
   }
 
   await db.insert(panorama).values(addPanoParsedInput);
+
+  return { success: true, existing: false };
 }

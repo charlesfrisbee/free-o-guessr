@@ -27,8 +27,22 @@ export default function AddPage() {
     if (!googlePanoId) return;
     startTransition(async () => {
       try {
-        await addPano({ googlePanoId, lat: position.lat, lng: position.lng });
-        toast.success("Panorama saved! 🎉");
+        const { success, existing } = await addPano({
+          googlePanoId,
+          lat: position.lat,
+          lng: position.lng,
+        });
+
+        if (success) {
+          toast.success("Panorama saved! 🎉");
+        }
+        if (existing) {
+          toast.error("Panorama already exists! 😢");
+        }
+
+        if (!success && !existing) {
+          throw new Error("Something went wrong");
+        }
       } catch (err) {
         console.error(err);
         const msg = (err as Error)?.message || "Something went wrong";
