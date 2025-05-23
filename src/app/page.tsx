@@ -1,3 +1,4 @@
+import GuessMap from "@/components/GuessMap";
 import MapProvider from "@/components/MapProvider";
 import Panorama from "@/components/Panorama";
 
@@ -7,6 +8,7 @@ export default function Home() {
     <main className="h-screen">
       <MapProvider>
         <Panorama position={position} />
+        <GuessMap />
       </MapProvider>
     </main>
   );
