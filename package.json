@@ -10,8 +10,9 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
-    "migration:generate": "drizzle-kit generate --name $npm_config_name",
-    "migration:apply": "wrangler d1 migrations apply free-o-guessr"
+    "migration:generate": "drizzle-kit generate",
+    "migration:apply": "wrangler d1 migrations apply free-o-guessr",
+    "migration:apply-remote": "wrangler d1 migrations apply free-o-guessr --remote"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.0.2",

@@ -1,0 +1,1 @@
+ALTER TABLE `panorama` RENAME COLUMN "googlePanoId" TO "google_pano_id";
