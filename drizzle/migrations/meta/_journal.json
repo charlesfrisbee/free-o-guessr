@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1748004051409,
+      "tag": "0000_--name=init_panorama_table",
+      "breakpoints": true
+    }
+  ]
+}

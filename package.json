@@ -1,34 +1,38 @@
 {
-	"name": "free-o-guessr",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev --turbopack",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint",
-		"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-		"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-		"cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
-	},
-	"dependencies": {
-		"@opennextjs/cloudflare": "^1.0.2",
-		"@vis.gl/react-google-maps": "^1.5.2",
-		"next": "15.3.2",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
-		"zustand": "^5.0.5"
-	},
-	"devDependencies": {
-		"@eslint/eslintrc": "^3",
-		"@tailwindcss/postcss": "^4",
-		"@types/node": "^20.17.50",
-		"@types/react": "^19",
-		"@types/react-dom": "^19",
-		"eslint": "^9",
-		"eslint-config-next": "15.3.2",
-		"tailwindcss": "^4",
-		"typescript": "^5",
-		"wrangler": "^4.16.1"
-	}
+  "name": "free-o-guessr",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
+    "migration:generate": "drizzle-kit generate --name $npm_config_name",
+    "migration:apply": "wrangler d1 migrations apply free-o-guessr"
+  },
+  "dependencies": {
+    "@opennextjs/cloudflare": "^1.0.2",
+    "@vis.gl/react-google-maps": "^1.5.2",
+    "drizzle-orm": "^0.43.1",
+    "next": "15.3.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20.17.50",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.1",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "wrangler": "^4.16.1"
+  }
 }
