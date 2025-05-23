@@ -1,15 +1,9 @@
-import GuessMap from "@/components/GuessMap";
-import MapProvider from "@/components/MapProvider";
-import Panorama from "@/components/Panorama";
+import GameView from "@/components/GameView";
 
-export default function Home() {
-  const position = { lat: 40.7128, lng: -74.0059 };
+export default async function Home() {
   return (
     <main className="h-screen">
-      <MapProvider>
-        <Panorama position={position} />
-        <GuessMap />
-      </MapProvider>
+      <GameView />
     </main>
   );
 }
