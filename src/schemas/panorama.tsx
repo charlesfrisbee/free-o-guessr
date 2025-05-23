@@ -2,7 +2,7 @@
 import { z } from "zod";
 
 export const AddPanoSchema = z.object({
-  mapId: z.number().int().positive(),
+  googlePanoId: z.string(),
   lat: z.number().min(-90).max(90),
   lng: z.number().min(-180).max(180),
 });

@@ -1,52 +1,64 @@
 // components/Panorama.tsx
 "use client";
-
 import React, { useEffect, useRef } from "react";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
+import { useAddPanoStore } from "@/store/add-pano";
+
+export type PanoramaProps = {
+  position: google.maps.LatLngLiteral;
+  zoom?: number;
+  onPanoChanged?: (panoId: string) => void;
+};
 
 export default function Panorama({
   position,
-  pov = { heading: 0, pitch: 0 },
   zoom = 1,
-}: {
-  position: google.maps.LatLngLiteral;
-  pov?: google.maps.StreetViewPov;
-  zoom?: number;
-}) {
+  onPanoChanged,
+}: PanoramaProps) {
   const divRef = useRef<HTMLDivElement>(null);
   const panoRef = useRef<google.maps.StreetViewPanorama | null>(null);
   const svLib = useMapsLibrary("streetView");
+  const googlePanoId = useAddPanoStore((s) => s.googlePanoId);
 
-  // 1) Create the panorama once, when the library and container are ready
+  // — Create the panorama exactly once
   useEffect(() => {
     if (!panoRef.current && svLib && divRef.current) {
       panoRef.current = new svLib.StreetViewPanorama(divRef.current, {
-        position,
-        pov,
+        ...(googlePanoId ? { pano: googlePanoId } : { position }),
         zoom,
         disableDefaultUI: true,
-        motionTracking: false,
-        motionTrackingControl: false,
-        clickToGo: false,
-        scrollwheel: false,
+        addressControl: false,
+        linksControl: false,
+        showRoadLabels: false,
         panControl: false,
         zoomControl: false,
-        linksControl: false,
-        addressControl: false,
         fullscreenControl: false,
-        showRoadLabels: false,
-        enableCloseButton: false,
+        clickToGo: false,
+        motionTracking: false,
+        motionTrackingControl: false,
       });
+
+      if (onPanoChanged) {
+        // Fire whenever the pano actually changes
+        panoRef.current.addListener("pano_changed", () => {
+          onPanoChanged(panoRef.current!.getPano());
+        });
+        // Also emit the initial pano
+        onPanoChanged(panoRef.current.getPano());
+      }
     }
   }, [svLib]);
 
-  // 2) Update position & zoom whenever props change
   useEffect(() => {
-    if (panoRef.current) {
+    if (!panoRef.current) return;
+
+    if (googlePanoId) {
+      panoRef.current.setPano(googlePanoId);
+    } else {
       panoRef.current.setPosition(position);
-      panoRef.current.setZoom(zoom);
     }
-  }, [position, zoom]);
+    panoRef.current.setZoom(zoom);
+  }, [googlePanoId, position, zoom]);
 
   return <div ref={divRef} className="absolute inset-0" />;
 }
