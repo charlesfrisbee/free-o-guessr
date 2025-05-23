@@ -4,7 +4,7 @@ import GoogleLocationSearchBox from "@/components/GoogleLocationSearchBox";
 import MapProvider from "@/components/MapProvider";
 import Panorama from "@/components/Panorama";
 import { useAddPanoStore } from "@/store/add-pano";
-import { addPano } from "../actions/add-pano";
+import { addPano } from "../../actions/add-pano";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
