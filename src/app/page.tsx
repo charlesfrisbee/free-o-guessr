@@ -1,18 +1,16 @@
 export const dynamic = "force-dynamic"; // disable build-time prerender
 
 import GameView from "@/components/GameView";
-import { panorama } from "@/db/schema";
-import { getDb } from "@/lib/db";
+import { getRandomPano } from "./actions/get-random-pano";
 
 export default async function Home() {
-  const db = await getDb(); // now runs at request-time on edge
-  const rows = await db.select().from(panorama).all();
+  const pano = await getRandomPano();
 
-  console.log(rows);
+  if (!pano) return null;
 
   return (
     <main className="h-screen">
-      <GameView />
+      <GameView pano={pano} />
     </main>
   );
 }

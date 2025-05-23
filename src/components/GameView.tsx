@@ -4,9 +4,18 @@ import MapProvider from "./MapProvider";
 import MobileMapToggle from "./MobileMapToggle";
 import Panorama from "./Panorama";
 
-function GameView() {
-  const position = { lat: 53.54992, lng: 10.00678 };
+type Pano = {
+  lat: number;
+  lng: number;
+  googlePanoId: string;
+};
 
+type GameViewProps = {
+  pano: Pano;
+};
+
+function GameView({ pano }: GameViewProps) {
+  const position = { lat: pano.lat, lng: pano.lng };
   return (
     <MapProvider>
       <Panorama position={position} />
