@@ -5,6 +5,8 @@ interface MapState {
   setMapHiddenMobile: (open: boolean) => void;
   currentGuess: google.maps.LatLngLiteral | null;
   setCurrentGuess: (latLng: google.maps.LatLngLiteral | null) => void;
+  goal: google.maps.LatLngLiteral | null;
+  setGoal: (latLng: google.maps.LatLngLiteral) => void;
 }
 
 export const useMapStore = create<MapState>()((set) => ({
@@ -12,4 +14,6 @@ export const useMapStore = create<MapState>()((set) => ({
   setMapHiddenMobile: (open: boolean) => set({ mapHiddenMobile: open }),
   currentGuess: null,
   setCurrentGuess: (latLng) => set({ currentGuess: latLng }),
+  goal: null,
+  setGoal: (latLng) => set({ goal: latLng }),
 }));

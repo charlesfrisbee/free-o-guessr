@@ -1,6 +1,7 @@
 "use client";
 import { Map } from "@vis.gl/react-google-maps";
 import GuessMarker from "./GuessMarker";
+import GoalMarker from "./GoalMarker";
 
 const ResultMap = () => {
   const position = { lat: 53.54992, lng: 10.00678 };
@@ -20,6 +21,7 @@ const ResultMap = () => {
       gestureHandling={"greedy"}
     >
       <GuessMarker />
+      <GoalMarker />
     </Map>
   );
 };
