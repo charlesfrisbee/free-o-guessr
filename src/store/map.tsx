@@ -4,7 +4,7 @@ interface MapState {
   mapHiddenMobile: boolean;
   setMapHiddenMobile: (open: boolean) => void;
   currentGuess: google.maps.LatLngLiteral | null;
-  setCurrentGuess: (latLng: google.maps.LatLngLiteral) => void;
+  setCurrentGuess: (latLng: google.maps.LatLngLiteral | null) => void;
 }
 
 export const useMapStore = create<MapState>()((set) => ({
