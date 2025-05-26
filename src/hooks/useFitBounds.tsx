@@ -1,4 +1,3 @@
-// useFitBounds.ts
 "use client";
 
 import { useEffect } from "react";
@@ -8,7 +7,6 @@ export function useFitBounds(points: (google.maps.LatLngLiteral | null)[]) {
   const map = useMap();
 
   useEffect(() => {
-    // Only fit when map is ready and we have at least two valid points
     const valid = points.filter((p) => !!p);
     if (!map || valid.length < 2) return;
 

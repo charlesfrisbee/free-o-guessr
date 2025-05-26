@@ -1,13 +1,13 @@
-import { useMapStore } from "@/store/map";
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
-import React from "react";
 
-const GuessMarker = () => {
-  const currentGuess = useMapStore((s) => s.currentGuess);
+type GuessMarkerProps = {
+  position: google.maps.LatLngLiteral | null;
+};
 
-  if (!currentGuess) return null;
+const GuessMarker = ({ position }: GuessMarkerProps) => {
+  if (!position) return null;
 
-  return <AdvancedMarker position={currentGuess} />;
+  return <AdvancedMarker position={position} />;
 };
 
 export default GuessMarker;

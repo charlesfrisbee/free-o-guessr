@@ -8,7 +8,9 @@ const PlayNextRoundButton = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    setCurrentGuess(null);
+    setTimeout(() => {
+      setCurrentGuess(null);
+    }, 100);
     router.push("/");
   };
 

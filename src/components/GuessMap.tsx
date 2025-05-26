@@ -9,6 +9,7 @@ const GuessMap = () => {
   const position = { lat: 53.54992, lng: 10.00678 };
   const mapHiddenMobile = useMapStore((s) => s.mapHiddenMobile);
   const setCurrentGuess = useMapStore((s) => s.setCurrentGuess);
+  const guess = useMapStore((s) => s.currentGuess);
 
   useHideMapOnMobile();
 
@@ -33,7 +34,7 @@ const GuessMap = () => {
         setCurrentGuess({ lat: latLng.lat, lng: latLng.lng });
       }}
     >
-      <GuessMarker />
+      <GuessMarker position={guess} />
       <MobileMapCloseButton />
       <GuessButton />
     </Map>

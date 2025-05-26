@@ -13,13 +13,12 @@ const ResultMap = () => {
   const guess = useMapStore((s) => s.currentGuess);
   const goal = useMapStore((s) => s.goal);
 
-  // Fit the map to include both guess and goal
   useFitBounds([guess, goal]);
 
   return (
     <BaseMap position={position}>
-      <GuessMarker />
-      <GoalMarker />
+      <GuessMarker position={guess} />
+      <GoalMarker position={goal} />
       <Arc />
     </BaseMap>
   );

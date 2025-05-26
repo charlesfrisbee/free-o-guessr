@@ -1,13 +1,12 @@
-import { useMapStore } from "@/store/map";
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
-import React from "react";
 
-const GoalMarker = () => {
-  const goal = useMapStore((s) => s.goal);
+type GoalMarkerProps = {
+  position: google.maps.LatLngLiteral | null;
+};
 
-  if (!goal) return null;
-
-  return <AdvancedMarker position={goal} />;
+const GoalMarker = ({ position }: GoalMarkerProps) => {
+  if (!position) return null;
+  return <AdvancedMarker position={position} />;
 };
 
 export default GoalMarker;
