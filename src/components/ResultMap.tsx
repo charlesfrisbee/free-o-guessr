@@ -1,28 +1,27 @@
 "use client";
-import { Map } from "@vis.gl/react-google-maps";
+
 import GuessMarker from "./GuessMarker";
 import GoalMarker from "./GoalMarker";
+import BaseMap from "./BaseMap";
+import Arc from "./Arc";
+import { useMapStore } from "@/store/map";
+import { useFitBounds } from "@/hooks/useFitBounds";
 
 const ResultMap = () => {
   const position = { lat: 53.54992, lng: 10.00678 };
 
+  const guess = useMapStore((s) => s.currentGuess);
+  const goal = useMapStore((s) => s.goal);
+
+  // Fit the map to include both guess and goal
+  useFitBounds([guess, goal]);
+
   return (
-    <Map
-      className={`h-full w-full`}
-      defaultCenter={position}
-      defaultZoom={10}
-      mapId="DEMO_MAP_ID"
-      streetViewControl={false}
-      mapTypeControl={false}
-      fullscreenControl={false}
-      cameraControl={false}
-      zoomControl={false}
-      clickableIcons={false}
-      gestureHandling={"greedy"}
-    >
+    <BaseMap position={position}>
       <GuessMarker />
       <GoalMarker />
-    </Map>
+      <Arc />
+    </BaseMap>
   );
 };
 
