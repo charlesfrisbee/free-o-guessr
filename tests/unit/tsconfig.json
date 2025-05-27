@@ -1,0 +1,12 @@
+// test/tsconfig.json
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "types": [
+      "@cloudflare/vitest-pool-workers" // provides `cloudflare:test` module types
+      // ...any other globals you need
+    ]
+  },
+  "include": ["**/*.ts", "**/*.spec.ts"]
+}
