@@ -9,8 +9,6 @@ vi.mock("@/actions/get-random-pano", () => ({
   getRandomPano: async () => fakePano,
 }));
 
-vi.unmock("@vis.gl/react-google-maps");
-
 it("renders the main page", async () => {
   // 1) kick off the render (Suspense is fine here)
   render(await Home());

@@ -10,7 +10,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const db = drizzle(env.DB, { schema: { panorama } }); // a fresh DB handle
 // stub getDb so getRandomPano() uses our `db`:
 vi.mock("@/lib/db", () => ({
-  getDb: async () => drizzle(env.DB, { schema: { panorama } }),
+  getDb: async () => db,
 }));
 
 afterEach(async () => {
