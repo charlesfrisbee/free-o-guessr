@@ -1,6 +1,6 @@
 // test/tsconfig.json
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "moduleResolution": "bundler",
     "types": [
@@ -8,5 +8,5 @@
       // ...any other globals you need
     ]
   },
-  "include": ["**/*.ts", "**/*.spec.ts", "component.spec.tsx"]
+  "include": ["**/*.ts", "**/*.spec.ts"]
 }

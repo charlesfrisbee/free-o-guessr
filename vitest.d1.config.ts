@@ -13,12 +13,12 @@ export default defineWorkersProject(async () => {
   return {
     plugins: [tsconfigPaths()],
     test: {
-      setupFiles: ["./tests/unit/apply-migrations.ts"],
-      include: ["tests/unit/*.spec.ts"],
+      setupFiles: ["./tests/unit/workers/apply-migrations.ts"],
+      include: ["tests/unit/workers/*.spec.ts"],
       environment: "node",
       poolOptions: {
         workers: {
-          main: "./tests/unit/minimal-worker.ts",
+          main: "./tests/unit/workers/minimal-worker.ts",
           singleWorker: true,
           wrangler: {
             configPath: "./wrangler.jsonc",
