@@ -52,7 +52,7 @@ describe("addPano()", () => {
 
   it("inserts case-sensitive distinct IDs separately", async () => {
     // if you want to assert that "abc" vs "ABC" are distinct:
-    await db.insert(panorama).values({
+    await addPano({
       lat: 0,
       lng: 0,
       googlePanoId: "abc",
