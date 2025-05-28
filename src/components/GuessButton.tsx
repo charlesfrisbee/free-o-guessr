@@ -1,12 +1,14 @@
-import { useMapStore } from "@/store/map";
 import { useRouter } from "next/navigation";
 
-const GuessButton = () => {
-  const currentGuess = useMapStore((s) => s.currentGuess);
+type GuessButtonProps = {
+  guess: google.maps.LatLngLiteral | null;
+};
+
+const GuessButton = ({ guess }: GuessButtonProps) => {
   const router = useRouter();
 
   const handleClick = () => {
-    if (currentGuess) {
+    if (guess) {
       // TODO: send guess to server
 
       router.push("/result");
@@ -15,14 +17,13 @@ const GuessButton = () => {
 
   return (
     <button
-      disabled={currentGuess ? false : true}
+      disabled={guess ? false : true}
       onClick={handleClick}
-      //   onClick={handleGuessClick}
       className={`z-50 w-full cursor-pointer rounded-full ${
-        currentGuess ? "bg-[#6cb928]" : "bg-[rgba(16,16,28,.6)]"
+        guess ? "bg-[#6cb928]" : "bg-[rgba(16,16,28,.6)]"
       }  p-2 text-center font-bold uppercase italic text-white  hover:scale-103`}
     >
-      {currentGuess ? "Guess" : "Place your pin on the map"}
+      {guess ? "Guess" : "Place your pin on the map"}
     </button>
   );
 };

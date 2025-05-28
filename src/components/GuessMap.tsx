@@ -36,7 +36,7 @@ const GuessMap = () => {
     >
       <GuessMarker position={guess} />
       <MobileMapCloseButton />
-      <GuessButton />
+      <GuessButton guess={guess} />
     </Map>
   );
 };
