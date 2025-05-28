@@ -19,7 +19,3 @@ it("can write & read D1", async () => {
   expect(results[1].lat).toBe(2);
   expect(results[1].googlePanoId).toBe("abcd");
 });
-
-it("can write & read D1", async () => {
-  expect(true).toBe(true);
-});

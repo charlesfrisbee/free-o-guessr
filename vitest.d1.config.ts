@@ -14,7 +14,7 @@ export default defineWorkersProject(async () => {
     plugins: [tsconfigPaths()],
     test: {
       setupFiles: ["./tests/unit/apply-migrations.ts"],
-      include: ["tests/unit/readD1.spec.ts"],
+      include: ["tests/unit/*.spec.ts"],
       environment: "node",
       poolOptions: {
         workers: {
