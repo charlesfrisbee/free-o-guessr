@@ -72,7 +72,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "pnpm run dev",
+    // command: "pnpm run dev",
+    command:
+      "pnpm opennextjs-cloudflare preview -- --port 3000 --inspector-port 8770",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },
