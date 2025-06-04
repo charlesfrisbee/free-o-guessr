@@ -1,0 +1,48 @@
+name: CI (Vitest)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # 1) Check out your code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Set up Node + pnpm
+      - name: Setup Node.js (pnpm)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "pnpm"
+
+      # 3) Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install
+
+      # 4) Run your Workers (D1) tests
+      #    We rely on your vitest.workers.config.ts + apply‐migrations setup
+      - name: Run Workers/D1 tests
+        run: pnpm run test:d1
+
+      # 5) Run your UI (React/jsdom) tests
+      - name: Run UI (jsdom) tests
+        run: pnpm run test:ui
+
+      # 6) Upload Vitest coverage/artifacts (optional)
+      - name: Upload Vitest HTML report (if generated)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitest-report
+          path: coverage/ # or wherever your Vitest output lives
+          retention-days: 7
