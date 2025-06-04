@@ -28,6 +28,12 @@ jobs:
           npm install -g pnpm
           pnpm install
 
+      - name: Build OpenNext (Cloudflare)
+        run: pnpm opennextjs-cloudflare build
+        env:
+          # Make sure NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is set during build:
+          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+
       # 4) Run your Workers (D1) tests
       #    We rely on your vitest.workers.config.ts + apply‐migrations setup
       - name: Run Workers/D1 tests
