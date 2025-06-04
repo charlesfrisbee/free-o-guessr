@@ -73,8 +73,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     // command: "pnpm run dev",
-    command:
-      "npx wrangler d1 migrations apply free-o-guessr && pnpm opennextjs-cloudflare preview -- --port 3000 --inspector-port 8770",
+    command: "npx wrangler d1 migrations apply free-o-guessr && pnpm run dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },
