@@ -74,7 +74,7 @@ export default defineConfig({
   webServer: {
     // command: "pnpm run dev",
     command:
-      "pnpm opennextjs-cloudflare preview -- --port 3000 --inspector-port 8770",
+      "npx wrangler d1 migrations apply free-o-guessr && pnpm opennextjs-cloudflare preview -- --port 3000 --inspector-port 8770",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },
