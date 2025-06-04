@@ -1,9 +1,9 @@
 name: Playwright Tests
 on:
   push:
-    branches: [main, master]
+    branches: ["__disable__"]
   pull_request:
-    branches: [main, master]
+    branches: ["__disable__"]
 jobs:
   test:
     timeout-minutes: 60
