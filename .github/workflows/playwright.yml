@@ -19,6 +19,9 @@ jobs:
       # 1) Build OpenNext so that `preview` can find the output
       - name: Build OpenNext (Cloudflare)
         run: pnpm opennextjs-cloudflare build
+        env:
+          # Make sure NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is set during build:
+          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
 
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
