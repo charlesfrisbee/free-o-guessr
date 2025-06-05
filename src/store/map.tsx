@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface MapState {
+export interface MapState {
   mapHiddenMobile: boolean;
   setMapHiddenMobile: (open: boolean) => void;
   currentGuess: google.maps.LatLngLiteral | null;
