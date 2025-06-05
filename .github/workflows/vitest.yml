@@ -12,41 +12,60 @@ jobs:
     timeout-minutes: 30
 
     steps:
+      # 1) Check out your code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache pnpm store & Next.js cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pnpm-store
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}-
-
+      # 2) Set up Node.js (so that pnpm is available)
       - name: Setup Node.js (pnpm)
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
-      - name: Install dependencies
-        run: |
-          npm install -g pnpm
-          pnpm install
+      # 3) Install a fixed PNPM version
+      - name: Install pnpm
+        run: npm install -g pnpm
 
+      # 4) Debug: print out where pnpm’s store actually lives on this runner
+      - name: Debug PNPM store path
+        run: |
+          echo "→ pnpm version: $(pnpm --version)"
+          echo "→ pnpm store path:"
+          pnpm store path
+          # (Optionally list a few files under that directory to verify contents)
+          ls -alh "$(pnpm store path)" | head -n 20
+
+      # 5) Cache PNPM store & Next.js build cache
+      #    Once you’ve seen the “Debug PNPM store path” output, you can verify the path below.
+      - name: Cache pnpm store & Next.js cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.local/share/pnpm/store/v3
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}-
+
+      # 6) Install dependencies (pnpm will now use its local store cache if intact)
+      - name: Install dependencies
+        run: pnpm install
+
+      # 7) Build your Next.js (OpenNext) app
       - name: Build OpenNext (Cloudflare)
         run: pnpm opennextjs-cloudflare build
         env:
-          # Make sure NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is set during build:
           NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
 
+      # 8) Run Workers/D1 tests
       - name: Run Workers/D1 tests
         run: pnpm run test:d1
 
+      # 9) Run UI (jsdom) tests
       - name: Run UI (jsdom) tests
         run: pnpm run test:ui
 
+      # 10) Upload Vitest coverage/artifacts (if generated)
       - name: Upload Vitest HTML report (if generated)
         if: always()
         uses: actions/upload-artifact@v4
