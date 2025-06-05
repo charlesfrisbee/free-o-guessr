@@ -1,4 +1,4 @@
-name: CI (Vitest) # test if cache hit in CI
+name: CI (Vitest)
 
 on:
   push:
@@ -16,38 +16,37 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2) Set up Node.js (so that pnpm is available)
+      # 2) Set up Node.js (makes pnpm available)
       - name: Setup Node.js (pnpm)
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
       # 3) Install a fixed PNPM version
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Install pnpm@10
+        run: npm install -g pnpm@10
 
-      # 4) Debug: print out where pnpm’s store actually lives on this runner
+      # 4) Debug: print out where pnpm's store actually lives on this runner
       - name: Debug PNPM store path
         run: |
           echo "→ pnpm version: $(pnpm --version)"
           echo "→ pnpm store path:"
           pnpm store path
-          # (Optionally list a few files under that directory to verify contents)
-          ls -alh "$(pnpm store path)" | head -n 20
+          echo "→ Listing the top‐level of PNPM store directory:"
+          ls -alh "$(pnpm store path)" || true
 
-      # 5) Cache PNPM store & Next.js build cache
-      #    Once you’ve seen the “Debug PNPM store path” output, you can verify the path below.
+      # 5) Cache PNPM store & Next.js cache (use the exact store path revealed above)
       - name: Cache pnpm store & Next.js cache
         uses: actions/cache@v4
         with:
           path: |
-            ~/.local/share/pnpm/store/v3
+            ~/.local/share/pnpm/store/v10
             ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
-      # 6) Install dependencies (pnpm will now use its local store cache if intact)
+      # 6) Install dependencies (now PNPM should reuse the cached store)
       - name: Install dependencies
         run: pnpm install
 
@@ -71,5 +70,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vitest-report
-          path: coverage/ # or wherever your Vitest output lives
+          path: coverage/
           retention-days: 7
