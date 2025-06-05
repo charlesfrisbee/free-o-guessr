@@ -1,4 +1,4 @@
-name: CI (Vitest) # test CI cache
+name: CI (Vitest)
 
 on:
   push:
