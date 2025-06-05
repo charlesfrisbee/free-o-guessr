@@ -1,4 +1,4 @@
-name: CI (Vitest)
+name: CI (Vitest) # test if cache hit in CI
 
 on:
   push:
