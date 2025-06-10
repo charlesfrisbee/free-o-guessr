@@ -16,7 +16,7 @@ A Next.js-based GeoGuessr-style game deployed on Cloudflare Workers with D1 data
 1. **Clone and install dependencies:**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/charlesfrisbee/free-o-guessr.git
    cd free-o-guessr
    pnpm install
    ```
