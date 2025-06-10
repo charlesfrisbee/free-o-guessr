@@ -29,6 +29,13 @@
       "when": 1748010014147,
       "tag": "0003_glorious_manta",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1749565642795,
+      "tag": "0004_add_google_pano_id_index",
+      "breakpoints": true
     }
   ]
 }

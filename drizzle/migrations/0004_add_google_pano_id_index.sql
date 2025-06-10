@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `idx_panorama_google_pano_id` ON `panorama` (`google_pano_id`);
