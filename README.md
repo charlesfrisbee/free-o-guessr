@@ -1,5 +1,7 @@
 # Free-O-Guessr
 
+![Gameplay Screenshot](./header-image.png)
+
 A Next.js-based GeoGuessr-style game deployed on Cloudflare Workers with D1 database.
 
 ## Prerequisites
