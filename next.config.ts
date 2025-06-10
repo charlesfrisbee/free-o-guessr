@@ -5,8 +5,7 @@ const nextConfig: NextConfig = {
     tsconfigPath: "tsconfig.app.json",
   },
   eslint: {
-    // you probably also want to skip linting tests
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   /* config options here */
 };
