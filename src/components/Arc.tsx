@@ -1,7 +1,7 @@
 // Arc.tsx
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useMapStore } from "@/store/map";
 
@@ -11,6 +11,17 @@ const Arc = () => {
   const guess = useMapStore((s) => s.currentGuess);
   const goal = useMapStore((s) => s.goal);
 
+  // Optimize step count based on distance
+  const getOptimalSteps = useCallback((from: google.maps.LatLng, to: google.maps.LatLng, geometry: any) => {
+    if (!geometry?.spherical) return 20; // fallback
+    
+    const distance = geometry.spherical.computeDistanceBetween(from, to);
+    // Reduce steps for shorter distances, increase for longer ones
+    if (distance < 100000) return 15;      // < 100km: 15 steps
+    if (distance < 1000000) return 25;     // < 1000km: 25 steps  
+    return 40;                             // > 1000km: 40 steps (max)
+  }, []);
+
   // Build an array of LatLngs by interpolating along the great circle
   const path = useMemo(() => {
     if (!geometry || !guess || !goal) return [];
@@ -18,7 +29,7 @@ const Arc = () => {
     const { spherical } = geometry;
     const from = new google.maps.LatLng(guess.lat, guess.lng);
     const to = new google.maps.LatLng(goal.lat, goal.lng);
-    const steps = 60; // tweak for smoothness vs. performance
+    const steps = getOptimalSteps(from, to, geometry);
 
     const pts: google.maps.LatLngLiteral[] = [];
     for (let i = 0; i <= steps; i++) {
@@ -27,7 +38,7 @@ const Arc = () => {
       pts.push({ lat: interp.lat(), lng: interp.lng() });
     }
     return pts;
-  }, [geometry, guess, goal]);
+  }, [geometry, guess, goal, getOptimalSteps]);
 
   // Create (and clean up) a Polyline on every change
   useEffect(() => {
