@@ -17,7 +17,7 @@ const MobileMapToggle = () => {
         className="z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#6cb928] shadow-inner hover:cursor-pointer"
         onClick={() => setMapHiddenMobile(false)}
       >
-        <img src="https://www.geoguessr.com/_next/static/media/map.8b3b27ab.svg" />
+        <img src="/map-icon.svg" alt="Show map" width="24" height="24" />
       </button>
     </div>
   );
