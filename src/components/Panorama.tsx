@@ -57,7 +57,7 @@ export default function Panorama({
         setError("Failed to load Street View. Please try refreshing the page.");
       }
     }
-  }, [svLib]);
+  }, [svLib, googlePanoId, position, zoom, onPanoChanged]);
 
   useEffect(() => {
     if (!panoRef.current) return;
