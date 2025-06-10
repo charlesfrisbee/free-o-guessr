@@ -12,15 +12,22 @@ const Arc = () => {
   const goal = useMapStore((s) => s.goal);
 
   // Optimize step count based on distance
-  const getOptimalSteps = useCallback((from: google.maps.LatLng, to: google.maps.LatLng, geometry: any) => {
-    if (!geometry?.spherical) return 20; // fallback
-    
-    const distance = geometry.spherical.computeDistanceBetween(from, to);
-    // Reduce steps for shorter distances, increase for longer ones
-    if (distance < 100000) return 15;      // < 100km: 15 steps
-    if (distance < 1000000) return 25;     // < 1000km: 25 steps  
-    return 40;                             // > 1000km: 40 steps (max)
-  }, []);
+  const getOptimalSteps = useCallback(
+    (
+      from: google.maps.LatLng,
+      to: google.maps.LatLng,
+      geometry: typeof google.maps.geometry | null
+    ) => {
+      if (!geometry?.spherical) return 20; // fallback
+
+      const distance = geometry.spherical.computeDistanceBetween(from, to);
+      // Reduce steps for shorter distances, increase for longer ones
+      if (distance < 100000) return 15; // < 100km: 15 steps
+      if (distance < 1000000) return 25; // < 1000km: 25 steps
+      return 40; // > 1000km: 40 steps (max)
+    },
+    []
+  );
 
   // Build an array of LatLngs by interpolating along the great circle
   const path = useMemo(() => {
