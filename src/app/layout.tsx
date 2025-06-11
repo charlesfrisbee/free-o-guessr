@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import TestError from "@/components/TestError";
 
 import "./globals.css";
 
@@ -29,7 +31,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
+        <TestError />
         <Toaster />
       </body>
     </html>

@@ -68,7 +68,6 @@ Run the test suites:
 
 ```bash
 # Unit tests
-pnpm test:unit
 
 # D1 database tests
 pnpm test:d1
