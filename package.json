@@ -17,6 +17,10 @@
     "migration:apply-remote": "wrangler d1 migrations apply free-o-guessr --remote"
   },
   "dependencies": {
+    "@axiomhq/js": "^1.3.1",
+    "@axiomhq/logging": "^0.1.3",
+    "@axiomhq/nextjs": "^0.1.3",
+    "@axiomhq/react": "^0.1.3",
     "@opennextjs/cloudflare": "^1.0.2",
     "@sentry/nextjs": "^9.28.1",
     "@vis.gl/react-google-maps": "^1.5.2",
