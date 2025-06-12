@@ -6,10 +6,6 @@ import { getDb } from "@/lib/db";
 import { gt, max } from "drizzle-orm";
 
 export async function getRandomPano() {
-  // Temporarily disabled server error test
-  // if (Math.random() > 0.5) {
-  //   throw new Error("Test server action error for Sentry!");
-  // }
   
   const db = await getDb();
 
