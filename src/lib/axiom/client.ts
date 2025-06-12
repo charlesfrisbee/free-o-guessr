@@ -9,19 +9,34 @@ const shouldLog = process.env.NODE_ENV !== 'test' && !process.env.CI;
 
 // Create logger with conditional transport
 const createClientLogger = () => {
-  const transports = shouldLog ? [
-    new AxiomJSTransport({ 
-      axiom: axiomClient, 
-      dataset: process.env.NEXT_PUBLIC_AXIOM_DATASET! 
-    }),
-  ] : [];
+  if (!shouldLog) {
+    // Return a no-op logger for test environments
+    return {
+      info: () => {},
+      warn: () => {},
+      error: () => {},
+      debug: () => {},
+    };
+  }
 
   return new Logger({
-    transports,
+    transports: [
+      new AxiomJSTransport({ 
+        axiom: axiomClient, 
+        dataset: process.env.NEXT_PUBLIC_AXIOM_DATASET! 
+      }),
+    ],
     formatters: nextJsFormatters,
   });
 };
 
 export const logger = createClientLogger();
-export const useLogger = createUseLogger(logger);
-export const AxiomWebVitals = createWebVitalsComponent(logger);
+
+// Only create React hooks for real logger instances
+export const useLogger = shouldLog 
+  ? createUseLogger(logger as Logger)
+  : () => ({ info: () => {}, warn: () => {}, error: () => {}, debug: () => {} });
+
+export const AxiomWebVitals = shouldLog 
+  ? createWebVitalsComponent(logger as Logger)
+  : () => null;

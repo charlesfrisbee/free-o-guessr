@@ -7,18 +7,28 @@ const shouldLog = process.env.NODE_ENV !== 'test' && !process.env.CI;
 
 // Create logger with conditional transport
 const createServerLogger = () => {
-  const transports = shouldLog ? [
-    new AxiomJSTransport({ 
-      axiom: axiomClient, 
-      dataset: process.env.NEXT_PUBLIC_AXIOM_DATASET! 
-    }),
-  ] : [];
+  if (!shouldLog) {
+    // Return a no-op logger for test environments
+    return {
+      info: () => {},
+      warn: () => {},
+      error: () => {},
+      debug: () => {},
+    };
+  }
 
   return new Logger({
-    transports,
+    transports: [
+      new AxiomJSTransport({ 
+        axiom: axiomClient, 
+        dataset: process.env.NEXT_PUBLIC_AXIOM_DATASET! 
+      }),
+    ],
     formatters: nextJsFormatters,
   });
 };
 
 export const logger = createServerLogger();
-export const withAxiom = createAxiomRouteHandler(logger);
+export const withAxiom = shouldLog 
+  ? createAxiomRouteHandler(logger as Logger)
+  : <T>(handler: T) => handler;
