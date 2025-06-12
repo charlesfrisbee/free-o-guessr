@@ -4,10 +4,19 @@
 import { panorama } from "@/db/schema";
 import { getDb } from "@/lib/db";
 import { gt, max } from "drizzle-orm";
-import { logger } from "@/lib/axiom/server";
 
 export async function getRandomPano() {
   const startTime = Date.now();
+  
+  // Only import logger in non-test environments
+  let logger: any = null;
+  if (process.env.NODE_ENV !== 'test') {
+    try {
+      logger = (await import("@/lib/axiom/server")).logger;
+    } catch {
+      // Ignore if import fails
+    }
+  }
   
   const db = await getDb();
 
@@ -30,7 +39,7 @@ export async function getRandomPano() {
 
   if (row) {
     const duration = Date.now() - startTime;
-    logger.info('Random panorama fetched', {
+    logger?.info('Random panorama fetched', {
       action: 'panorama_fetched',
       panoramaId: row.id,
       googlePanoId: row.googlePanoId,
@@ -50,7 +59,7 @@ export async function getRandomPano() {
     .limit(1);
 
   const duration = Date.now() - startTime;
-  logger.info('Random panorama fetched (fallback)', {
+  logger?.info('Random panorama fetched (fallback)', {
     action: 'panorama_fetched',
     panoramaId: first.id,
     googlePanoId: first.googlePanoId,
