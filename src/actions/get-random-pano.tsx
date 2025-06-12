@@ -5,19 +5,32 @@ import { panorama } from "@/db/schema";
 import { getDb } from "@/lib/db";
 import { gt, max } from "drizzle-orm";
 
+interface LogData {
+  action: string;
+  panoramaId: number;
+  googlePanoId: string;
+  location: { lat: number; lng: number };
+  queryDuration: number;
+  queryMethod: string;
+}
+
+interface Logger {
+  info: (message: string, data?: LogData) => void;
+}
+
 export async function getRandomPano() {
   const startTime = Date.now();
-  
+
   // Only import logger in non-test environments
-  let logger: any = null;
-  if (process.env.NODE_ENV !== 'test') {
+  let logger: Logger | null = null;
+  if (process.env.NODE_ENV !== "test") {
     try {
       logger = (await import("@/lib/axiom/server")).logger;
     } catch {
       // Ignore if import fails
     }
   }
-  
+
   const db = await getDb();
 
   // 1) MAX(id)
@@ -39,15 +52,15 @@ export async function getRandomPano() {
 
   if (row) {
     const duration = Date.now() - startTime;
-    logger?.info('Random panorama fetched', {
-      action: 'panorama_fetched',
+    logger?.info("Random panorama fetched", {
+      action: "panorama_fetched",
       panoramaId: row.id,
       googlePanoId: row.googlePanoId,
       location: { lat: row.lat, lng: row.lng },
       queryDuration: duration,
-      queryMethod: 'random_selection',
+      queryMethod: "random_selection",
     });
-    
+
     return { lat: row.lat, lng: row.lng, googlePanoId: row.googlePanoId };
   }
 
@@ -59,13 +72,13 @@ export async function getRandomPano() {
     .limit(1);
 
   const duration = Date.now() - startTime;
-  logger?.info('Random panorama fetched (fallback)', {
-    action: 'panorama_fetched',
+  logger?.info("Random panorama fetched (fallback)", {
+    action: "panorama_fetched",
     panoramaId: first.id,
     googlePanoId: first.googlePanoId,
     location: { lat: first.lat, lng: first.lng },
     queryDuration: duration,
-    queryMethod: 'fallback_first',
+    queryMethod: "fallback_first",
   });
 
   return { lat: first.lat, lng: first.lng, googlePanoId: first.googlePanoId };
